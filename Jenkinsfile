@@ -62,7 +62,7 @@ pipeline {
         
         stage("Deploy"){
             steps{
-                sh "docker run --name petclinic -d -p 8082:8000  image1 "
+                sh "docker run --name petclinic -d -p 8082:8080  image1 "
             }
         }
     }
