@@ -28,7 +28,7 @@ pipeline {
 		 stage('Publish to nexus') {
             steps {
                withMaven(globalMavenSettingsConfig: 'global-settings', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true)  {
-                 sh "mvn deploy"
+                 sh "mvn deploy -X"
 
              }
             }
