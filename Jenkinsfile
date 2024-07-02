@@ -47,7 +47,7 @@ pipeline {
             steps {
                 script{
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker build -t vkulkarni0303/Petclinic:$BUILD_NUMBER ."
+                        sh "docker build -t vkulkarni0303/petclinic:$BUILD_NUMBER ."
     
             
                         
@@ -59,7 +59,7 @@ pipeline {
             steps {
                 script{
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker push vkulkarni0303/Petclinic:latest"
+                        sh "docker push vkulkarni0303/petclinic:latest"
                         
                     }
             }
@@ -70,8 +70,8 @@ pipeline {
           steps {
            script {
              try {
-                sh 'docker stop Petclinic '
-                sh 'docker rm Petclinic '
+                sh 'docker stop petclinic '
+                sh 'docker rm petclinic '
                 } catch (Exception e) {
                   echo "Container pet1 not found, moving to next stage"  
                 }
@@ -80,7 +80,7 @@ pipeline {
         }
 		stage("Deploy "){
             steps{
-                sh "docker run --name Petclinic -d -p 8082:8080  vkulkarni0303/Petclinic:$BUILD_NUMBER "
+                sh "docker run --name petclinic -d -p 8082:8080  vkulkarni0303/petclinic:$BUILD_NUMBER "
             }
         }
         stage('Deploy to Kubernetes') {
