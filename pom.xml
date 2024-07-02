@@ -553,7 +553,7 @@
         </repository>
     </repositories>
 
-         <distributionManagement>
+   <distributionManagement>
         <repository>
             <id>maven-releases</id>
             <url>http://100.25.203.232:8081/repository/maven-releases/</url>
