@@ -560,7 +560,7 @@
         </repository>
         <snapshotRepository>
             <id>maven-snapshots</id>
-            <url>http://100.25.203.232:8081/repository/maven-snapshots/</url>
+            <url>http://100.25.203.232:8081/repository/maven-snapshots/</url> 
         </snapshotRepository>
     </distributionManagement>
 
