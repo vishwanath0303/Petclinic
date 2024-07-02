@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment # Kubernetes resource kind we are creating
 metadata:
-  name: boardgame-deployment
+  name: petclinic-deployment
 spec:
   selector:
     matchLabels:
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: petclinic
-          image: vkulkarni0303/Petclinic:$BUILD_NUMBER # Image that will be used to containers in the cluster
+          image: vkulkarni0303/petclinic:$BUILD_NUMBER # Image that will be used to containers in the cluster
           imagePullPolicy: Always
           ports:
             - containerPort: 8080 # The port that the container is running on in the cluster
