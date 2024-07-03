@@ -47,7 +47,7 @@ pipeline {
             steps {
                 script{
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker build -t vkulkarni0303/petclinic:$BUILD_NUMBER ."
+                        sh "docker build -t vkulkarni0303/petclinic:latest ."
     
             
                         
@@ -59,7 +59,7 @@ pipeline {
             steps {
                 script{
                     withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                        sh "docker push vkulkarni0303/petclinic:$BUILD_NUMBER "
+                        sh "docker push vkulkarni0303/petclinic:latest "
                         
                     }
             }
@@ -80,7 +80,7 @@ pipeline {
         }
 		stage("Deploy "){
             steps{
-                sh "docker run --name petclinic -d -p 8082:8080  vkulkarni0303/petclinic:$BUILD_NUMBER "
+                sh "docker run --name petclinic -d -p 8082:8080  vkulkarni0303/petclinic:latest "
             }
         }
         stage('Deploy to Kubernetes') {
