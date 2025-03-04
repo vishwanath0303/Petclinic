@@ -1,11 +1,8 @@
 pipeline {
     agent any
     tools{
-        jdk 'jdk17'
+        jdk 'jdk11'
         maven 'maven3'
-    }
-    environment{
-        SCANNER_HOME= tool 'sonar-scanner'
     }
 	stages {
         stage('Git checkout') {
@@ -24,24 +21,6 @@ pipeline {
             steps {
                 sh "mvn clean install"
                 }
-        }
-		 stage('Publish to nexus') {
-            steps {
-               withMaven(globalMavenSettingsConfig: 'global-settings', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true)  {
-                 sh "mvn deploy -X"
-
-             }
-            }
-        }	
-		stage('Sonarqube Analysis') {
-            steps {
-                    withSonarQubeEnv('sonar') {
-                        sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Petclinic \
-                        -Dsonar.java.binaries=. \
-                        -Dsonar.projectKey=Petclinic '''
-    
-                }
-            }
         }
          stage('Build & tag docker image') {
             steps {
@@ -83,22 +62,5 @@ pipeline {
                 sh "docker run --name petclinic -d -p 8082:8080  vkulkarni0303/petclinic:latest "
             }
         }
-        stage('Deploy to Kubernetes') {
-            steps {
-               withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.57.191:6443') {
-    			sh " kubectl apply -f deployment-service.yaml "
- 
-}
-            }
 	}
-		stage('Verify the aDeployment') {
-            steps { 
-		    withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.57.191:6443') {
-				    sh "kubectl get pods"
-				    sh "kubectl get svc -n webapps"
-}
-            }
-		}
-         
-    }
 }
